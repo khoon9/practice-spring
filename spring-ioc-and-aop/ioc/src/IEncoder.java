@@ -1,2 +1,3 @@
-package PACKAGE_NAME;public interface IEncoder {
+public interface IEncoder {
+    String encode(String message);
 }

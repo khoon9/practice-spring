@@ -12,7 +12,7 @@ class ObjectMapperApplicationTests {
     void contextLoads() throws JsonProcessingException {
         System.out.println("---------");
 
-        // 변환 과정
+        // 변환 관계
         // Text JSON -> object
         // Object -> Text JSON
 

@@ -35,8 +35,6 @@ public class SpringIocApplication {
 
 
     }
-
-    // @SpringApplicationContext 어노테이션을 사용하여 Bean을 가져올 수 있다.
 }
 
 // Bean을 주입받을 수 있는 위치는 변수, 생성자, set method 가 있다.

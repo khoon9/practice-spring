@@ -16,9 +16,7 @@ public class ParameterAop {
     // 다른 특정 메소드를 지칭하고자 할 때, 인터넷을 사용하여 개별적으로 알아보는 과정이 필요함. ex) 다른 표현들
     // aop 라는 프로젝트의(-"com.example.aop"), controller 라는 패키지의(-".controller") 하위에 있는(-"..") 모든 메소드를(-"*.*(..)") 전부 aop 로 보겠다는 문구
     @Pointcut("execution(* com.example.aop.controller..*.*(..))")
-    private void cut01(){
-
-    }
+    private void cut01(){}
     // JoinPoint : 들어갈 때의 정보를 가지고 있는 객체
     @Before("cut01()")
     public void before01(JoinPoint joinPoint){

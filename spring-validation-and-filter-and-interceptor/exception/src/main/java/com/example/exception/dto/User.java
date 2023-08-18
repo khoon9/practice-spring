@@ -3,6 +3,7 @@ package com.example.exception.dto;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
+import org.springframework.validation.annotation.Validated;
 
 public class User {
     @NotEmpty

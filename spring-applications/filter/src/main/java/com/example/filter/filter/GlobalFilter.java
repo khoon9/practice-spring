@@ -28,6 +28,7 @@ public class GlobalFilter implements Filter {
         // 스프링 내부 로직으로 들어가서 ContentCaching~Wrapper 의 메소드가 실행되어야
         // CashedContent 가 내용을 품기 때문에 '후처리' 부분에서 다뤄야 한다.
         chain.doFilter(httpServletRequest, httpServletResponse);
+        // chain.doFilter(request, response)
 
         // 후처리
 

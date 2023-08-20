@@ -51,13 +51,12 @@ public class AuthInterceptor implements HandlerInterceptor {
             }
             // return false;
             // 예외 처리를 위한 클래스를 동작시켜야 클라이언트가 권한 없음을 인지할 수 있다.
-            // 여기서는 AOD 를 사용했다.
             throw new AuthException();
         }
 
         // Interceptor 의 핵심을 return false; 이다.
         // return false 이면 동작하지 않는다는 의미
-        // 즉, 인터셉터 이후 controller 까지 못 간다는 이미.
+        // 즉, 인터셉터 이후 controller 까지 못 간다는 의미.
         return true;
     }
     private boolean checkAnnotation(Object handler, Class clazz){

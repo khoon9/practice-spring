@@ -11,7 +11,7 @@ public class MvcConfig implements WebMvcConfigurer {
     // @RequiredArgsConstructor 을 통해서, final 로 선언된 객체들을 생성자에서 주입받을 수 있도록 해준다.
     // 즉, lombok 에 의해서 MvcConfig(AuthInterceptor) 생성자가 자동 생성된 것
     // 유의 : @Autowired 를 통해 자체적으로 받을 수도 있지만, 순환참조가 발생할 수도 있어서 요즘엔 생성자로 받는 추세이다.
-    // 여기서 AuthInterceptor 은 단 등록하고자 하는 Interceptor 클래스를 의미한다.
+    // 여기서 AuthInterceptor 은 단지 등록하고자 하는 Interceptor 클래스를 의미한다.
     private final AuthInterceptor authInterceptor;
     @Override
     public void addInterceptors(InterceptorRegistry registry) {

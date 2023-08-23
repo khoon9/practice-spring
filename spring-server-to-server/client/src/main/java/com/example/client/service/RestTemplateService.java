@@ -1,8 +1,12 @@
 package com.example.client.service;
 
+import com.example.client.dto.Req;
 import com.example.client.dto.UserRequest;
 import com.example.client.dto.UserResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.MediaType;
+import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -49,9 +53,9 @@ public class RestTemplateService {
         URI uri = UriComponentsBuilder
                 .fromUriString("http://localhost:9090")
                 .path("/api/server/user/{userID}/name/{userName}")
+                .encode()
                 .build()
                 .expand(100, "steve")
-                .encode()
                 .toUri();
         log.info(uri.toString());
         // 본래 http body 가 필요한데, 우리는 object 와 rest template 만을 사용하여 http body json 을 uri 로 보낼 수 있다.
@@ -72,4 +76,74 @@ public class RestTemplateService {
 
         return response.getBody();
     }
+
+    // Header 를 붙여서 보내는 게 현업에선 일반적이기에 실습
+    public UserResponse exchange(){
+        // URI 구성
+        URI uri = UriComponentsBuilder
+                .fromUriString("http://localhost:9090")
+                .path("/api/server/user/{userID}/name/{userName}")
+                .encode()
+                .build()
+                .expand(100, "steve")
+                .toUri();
+        log.info(uri.toString());
+        //
+        UserRequest userRequest = new UserRequest();
+        userRequest.setName("steve");
+        userRequest.setAge(25);
+        // RequestEntity 구성
+        RequestEntity<UserRequest> requestEntity = RequestEntity
+                .post(uri)
+                .contentType(MediaType.APPLICATION_JSON)
+                .header("x-authorication", "abcd")
+                .header("custom-header", "fffff")
+                .body(userRequest);
+
+
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<UserResponse> response = restTemplate.exchange(requestEntity, UserResponse.class);
+
+        return response.getBody();
+    }
+
+    public Req<UserResponse> genericExchange(){
+        // URI 구성
+        URI uri = UriComponentsBuilder
+                .fromUriString("http://localhost:9090")
+                .path("/api/server/user/{userID}/name/{userName}")
+                .encode()
+                .build()
+                .expand(100, "steve")
+                .toUri();
+        log.info(uri.toString());
+        // 바디 구성
+        UserRequest userRequest = new UserRequest();
+        userRequest.setName("steve");
+        userRequest.setAge(25);
+        // generic 바디 구성 (<- Header 포함)
+        Req<UserRequest> requestBody = new Req<>();
+        requestBody.setHeader(
+                new Req.Header()
+        );
+        requestBody.setRBody(
+                userRequest
+        );
+        // RequestEntity 구성
+        RequestEntity<Req<UserRequest>> requestEntity = RequestEntity
+                .post(uri)
+                .contentType(MediaType.APPLICATION_JSON)
+                .header("x-authorication", "abcd")
+                .header("custom-header", "fffff")
+                .body(requestBody);
+
+        // generic type에 대해 .class 불가 -> new ParameterizedTypeReference<~>(){}
+        // 여기선 ResponseEntity<Req<UserResponse>> 에 의해 일부 생략하여 new ParameterizedTypeReference<>(){} 만 기재
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<Req<UserResponse>> response =  restTemplate
+                .exchange(requestEntity, new ParameterizedTypeReference<>(){});
+        return response.getBody();
+
+    }
+
 }

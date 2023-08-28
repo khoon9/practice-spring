@@ -52,7 +52,6 @@ public class WishListRepositoryTest {
         var wishListEntity = create();
         wishListRepository.save(wishListEntity);
 
-        // 따라서 equals 검사가 적절하다.
         var expected = wishListRepository.findById(1);
         // return 이 Optional<> 일 경우 항상 notnull 이므로 다음과 같이 변형해서 검사
         Assertions.assertEquals(true,expected.isPresent());

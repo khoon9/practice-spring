@@ -28,5 +28,4 @@ public class SearchImageRes {
         private String sizeheight;
         private String sizewidth;
     }
-
 }

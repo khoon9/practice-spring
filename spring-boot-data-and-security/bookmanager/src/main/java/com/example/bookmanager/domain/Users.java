@@ -1,17 +1,22 @@
 package com.example.bookmanager.domain;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
 import lombok.*;
 
 import java.time.LocalDateTime;
 
+@NoArgsConstructor
 @AllArgsConstructor
-@RequiredArgsConstructor
 @Data
 @Builder
-public class User {
-    @NonNull
+@Entity
+public class Users {
+    @Id
+    @GeneratedValue
+    private Long id;
     private String name;
-    @NonNull
     private String email;
     // 데이터베이스 객체가 언제 ~했는지 jpa
     private LocalDateTime createdAt;

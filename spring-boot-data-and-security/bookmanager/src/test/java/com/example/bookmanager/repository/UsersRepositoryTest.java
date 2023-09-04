@@ -141,6 +141,28 @@ class UsersRepositoryTest {
         System.out.println("findLast2ByName : ");
         usersRepository.findLast2ByName("dennis").forEach(System.out::println);
 
+        // where 조건 설정 And Or , After, Before
+        System.out.println("findByEmailAndName : ");
+        usersRepository.findByEmailAndName("example01@naver.com", "sehun").forEach(System.out::println);
+        System.out.println("findByEmailOrName : ");
+        usersRepository.findByEmailOrName("example01@naver.com", "dennis").forEach(System.out::println);
+
+        System.out.println("findByCreatedAtAfter : ");
+        usersRepository.findByCreatedAtAfter(LocalDateTime.now().minusDays(1L)).forEach(System.out::println);
+        System.out.println("findByIdAfter : ");
+        usersRepository.findByIdAfter(4L).forEach(System.out::println);
+
+        System.out.println("findByCreatedAtGreaterThan : ");
+        usersRepository.findByCreatedAtGreaterThan(LocalDateTime.now().minusDays(1L)).forEach(System.out::println);
+        System.out.println("findByCreatedAtGreaterThanEqual : ");
+        usersRepository.findByCreatedAtGreaterThanEqual(LocalDateTime.now().minusDays(1L)).forEach(System.out::println);
+
+        System.out.println("findByCreatedAtBetween : ");
+        usersRepository.findByCreatedAtBetween(LocalDateTime.now().minusDays(1L), LocalDateTime.now().plusDays(1L)).forEach(System.out::println);
+        System.out.println("findByIdBetween : ");
+        usersRepository.findByIdBetween(1L, 3L).forEach(System.out::println);
+        System.out.println("findByIdGreaterThanEqualAndIdLessThanEqual : ");
+        usersRepository.findByIdGreaterThanEqualAndIdLessThanEqual(1L, 3L).forEach(System.out::println);
 
     }
 }

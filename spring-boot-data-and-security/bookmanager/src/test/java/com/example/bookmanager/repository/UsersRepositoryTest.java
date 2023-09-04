@@ -100,4 +100,47 @@ class UsersRepositoryTest {
 //        usersRepository.findAll().forEach(System.out::println);
     }
 
+    @Test
+    void saveAndUpdateTest(){
+        usersRepository.save(new Users(null, "sehun", "example01@naver.com", LocalDateTime.now(), LocalDateTime.now()));
+
+        Users users = usersRepository.findById(1L).orElseThrow(RuntimeException::new);
+        users.setEmail("sehun-update@naver.com");
+
+        usersRepository.save(users);
+    }
+
+    @Test
+    void select(){
+        // 데이터 표본 입력
+        usersRepository.save(new Users(null, "sehun", "example01@naver.com", LocalDateTime.now(), LocalDateTime.now()));
+        usersRepository.save(new Users(null, "dennis", "example02@naver.com", LocalDateTime.now(), LocalDateTime.now()));
+        usersRepository.save(new Users(null, "dennis", "example03@naver.com", LocalDateTime.now(), LocalDateTime.now()));
+        usersRepository.save(new Users(null, "james", "example04@naver.com", LocalDateTime.now(), LocalDateTime.now()));
+        usersRepository.save(new Users(null, "dennis", "example05@naver.com", LocalDateTime.now(), LocalDateTime.now()));
+
+        // 검색대상이 유니크하다는 전제하에 검색한 결과
+        System.out.println("findByEmail : " + usersRepository.findByEmail("example01@naver.com"));
+        System.out.println("getByEmail : " + usersRepository.getByEmail("example01@naver.com"));
+        System.out.println("readByEmail : " + usersRepository.readByEmail("example01@naver.com"));
+        System.out.println("queryByEmail : " + usersRepository.queryByEmail("example01@naver.com"));
+        System.out.println("searchByEmail : " + usersRepository.searchByEmail("example01@naver.com"));
+        System.out.println("streamByEmail : " + usersRepository.streamByEmail("example01@naver.com"));
+
+        // 사용자 편의에 의한 접두어를 사용한 모습
+        System.out.println("findUsersByEmail : " + usersRepository.findUsersByEmail("example01@naver.com"));
+        System.out.println("findSomethingByEmail : " + usersRepository.findSomethingByEmail("example01@naver.com"));
+
+        // 접두어 키워드를 사용한 모습
+        System.out.println("findFirst1ByName : ");
+        usersRepository.findFirst2ByName("dennis").forEach(System.out::println);
+        System.out.println("findTop1ByName : ");
+        usersRepository.findTop2ByName("dennis").forEach(System.out::println);
+
+        // 인식되지 않은 접두어 "Last2" 가 무시되어, findByName 쿼리 메소드로 인식되었다.
+        System.out.println("findLast2ByName : ");
+        usersRepository.findLast2ByName("dennis").forEach(System.out::println);
+
+
+    }
 }

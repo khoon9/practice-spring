@@ -211,13 +211,14 @@ class UsersRepositoryTest {
 
         System.out.println("findFirst1ByNameOrderByIdDescEmailAsc : ");
         usersRepository.findFirst1ByNameOrderByIdDescEmailAsc("dennis").forEach(System.out::println);
-        // Sort 활용
+        // Sort 활
         System.out.println("findFirstByName With Sort Params  : ");
         usersRepository.findFirstByName("dennis", Sort.by(Sort.Order.desc("id"))).forEach(System.out::println);
 
         System.out.println("findFirstByName With Sort Params  : ");
         usersRepository.findFirstByName("dennis", Sort.by(Sort.Order.desc("id"), Sort.Order.asc("email"))).forEach(System.out::println);
 
-
+        System.out.println("findByName With Paging  : "+usersRepository.findByName("dennis", PageRequest.of(0, 1, Sort.by(Sort.Order.desc("id")))).getContent());
+        System.out.println("findByName With Paging  : "+usersRepository.findByName("dennis", PageRequest.of(0, 1, Sort.by(Sort.Order.desc("id")))));
     }
 }

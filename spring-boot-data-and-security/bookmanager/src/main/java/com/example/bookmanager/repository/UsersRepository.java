@@ -2,6 +2,7 @@ package com.example.bookmanager.repository;
 
 import com.example.bookmanager.domain.Address;
 import com.example.bookmanager.domain.Users;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.time.LocalDateTime;
@@ -70,6 +71,18 @@ public interface UsersRepository extends JpaRepository<Users, Long> {
     List<Users> findByNameContains(String name);
     List<Users> findByNameLike(String name);
 
+    List<Users> findTop1ByName(String name);
 
+    // 역순으로 만들기 후 하나 가져오기
+    // Asc 는 정순, Desc 는 역순
+    List<Users> findTop1ByNameOrderByIdDesc(String name);
+    // 길어지면 점점 가독성이 떨어진다. 자유도가 떨어진다
+    // 네이밍 컨벤션 기반 정렬
+    List<Users> findFirst1ByNameOrderByIdDescEmailAsc(String name);
+    // 코드 가독성, 자유도 좋음
+    // Sort 파라미터 기반 정렬
+    List<Users> findFirstByName(String name, Sort sort);
 
 }
+
+

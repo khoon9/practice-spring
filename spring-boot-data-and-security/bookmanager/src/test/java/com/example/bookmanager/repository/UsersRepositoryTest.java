@@ -187,10 +187,36 @@ class UsersRepositoryTest {
         usersRepository.findByNameEndingWith("eh").forEach(System.out::println);
         System.out.println("findByNameContains : ");
         usersRepository.findByNameContains("un").forEach(System.out::println);
-        System.out.println("findByNameLike : ");
         // % 은 방향. ~% 은 ~로 시작. %~은 ~로 끝. %~% 은 ~을 포함
+        System.out.println("findByNameLike : ");
         usersRepository.findByNameLike("%ehu%").forEach(System.out::println);
 
+    }
+
+    @Test
+    void pagingAndSortingTest(){
+        // 데이터 표본 입력
+        usersRepository.save(new Users(null, "sehun", "example01@naver.com", LocalDateTime.now(), LocalDateTime.now()));
+        usersRepository.save(new Users(null, "dennis", "example02@naver.com", LocalDateTime.now(), LocalDateTime.now()));
+        usersRepository.save(new Users(null, "dennis", "example03@naver.com", LocalDateTime.now(), LocalDateTime.now()));
+        usersRepository.save(new Users(null, "james", "example04@naver.com", LocalDateTime.now(), LocalDateTime.now()));
+        usersRepository.save(new Users(null, "dennis", "example05@naver.com", LocalDateTime.now(), LocalDateTime.now()));
+
+        // 정렬 테스트
+        System.out.println("findTop1ByName : ");
+        usersRepository.findTop1ByName("dennis").forEach(System.out::println);
+        // OrderByIdDesc
+        System.out.println("findTop1ByNameOrderByIdDesc : ");
+        usersRepository.findTop1ByNameOrderByIdDesc("dennis").forEach(System.out::println);
+
+        System.out.println("findFirst1ByNameOrderByIdDescEmailAsc : ");
+        usersRepository.findFirst1ByNameOrderByIdDescEmailAsc("dennis").forEach(System.out::println);
+        // Sort 활용
+        System.out.println("findFirstByName With Sort Params  : ");
+        usersRepository.findFirstByName("dennis", Sort.by(Sort.Order.desc("id"))).forEach(System.out::println);
+
+        System.out.println("findFirstByName With Sort Params  : ");
+        usersRepository.findFirstByName("dennis", Sort.by(Sort.Order.desc("id"), Sort.Order.asc("email"))).forEach(System.out::println);
 
 
     }

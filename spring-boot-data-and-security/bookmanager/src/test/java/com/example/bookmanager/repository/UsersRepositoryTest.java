@@ -141,7 +141,8 @@ class UsersRepositoryTest {
         System.out.println("findLast2ByName : ");
         usersRepository.findLast2ByName("dennis").forEach(System.out::println);
 
-        // where 조건 설정 And Or , After, Before
+        // where 조건 설명
+        // And Or , After, Before
         System.out.println("findByEmailAndName : ");
         usersRepository.findByEmailAndName("example01@naver.com", "sehun").forEach(System.out::println);
         System.out.println("findByEmailOrName : ");
@@ -163,6 +164,34 @@ class UsersRepositoryTest {
         usersRepository.findByIdBetween(1L, 3L).forEach(System.out::println);
         System.out.println("findByIdGreaterThanEqualAndIdLessThanEqual : ");
         usersRepository.findByIdGreaterThanEqualAndIdLessThanEqual(1L, 3L).forEach(System.out::println);
+
+        System.out.println("findByIdIsNotNull : ");
+        usersRepository.findByIdIsNotNull().forEach(System.out::println);
+
+        System.out.println("findByIdIsNotNull : ");
+        usersRepository.findByIdIsNotNull().forEach(System.out::println);
+
+        // 여기선 Empty 거 문자열의 empty 가 아니라, collector 의 empty 을 말한다.
+        // 많이 사용하진 않는다.
+        // System.out.println("findByAddressIsNotEmpty : ");
+        // usersRepository.findByAddressIsNotEmpty().forEach(System.out::println);
+
+        // In
+        System.out.println("findByNameIn : ");
+        usersRepository.findByNameIn(Lists.newArrayList("sehun", "dennis")).forEach(System.out::println);
+
+        // 문자열 like 검색. StartingWith, EndingWith, Contains
+        System.out.println("findByNameStartingWith : ");
+        usersRepository.findByNameStartingWith("se").forEach(System.out::println);
+        System.out.println("findByNameEndingWith : ");
+        usersRepository.findByNameEndingWith("eh").forEach(System.out::println);
+        System.out.println("findByNameContains : ");
+        usersRepository.findByNameContains("un").forEach(System.out::println);
+        System.out.println("findByNameLike : ");
+        // % 은 방향. ~% 은 ~로 시작. %~은 ~로 끝. %~% 은 ~을 포함
+        usersRepository.findByNameLike("%ehu%").forEach(System.out::println);
+
+
 
     }
 }

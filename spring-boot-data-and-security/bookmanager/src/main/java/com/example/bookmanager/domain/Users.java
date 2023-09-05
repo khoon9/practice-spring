@@ -1,12 +1,10 @@
 package com.example.bookmanager.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -22,4 +20,8 @@ public class Users {
     // 데이터베이스 객체가 언제 ~했는지 jpa
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+
+    // collector 정의
+//    @OneToMany(fetch = FetchType.EAGER)
+//    private List<Address> address;
 }

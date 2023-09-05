@@ -1,5 +1,6 @@
 package com.example.bookmanager.repository;
 
+import com.example.bookmanager.domain.Address;
 import com.example.bookmanager.domain.Users;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -12,6 +13,9 @@ public interface UsersRepository extends JpaRepository<Users, Long> {
 
     // 반환 타입을 단일 객체로 할 경우, 중복검색된 데이터에 대해 오류가 발생한다.
     List<Users> findByName(String name);
+    List<Users> findUsersByName(String name);
+    List<Users> findUsersByNameIs(String name);
+    List<Users> findUsersByNameEquals(String name);
 
     Users findByEmail(String email);
 
@@ -50,4 +54,22 @@ public interface UsersRepository extends JpaRepository<Users, Long> {
     List<Users> findByIdBetween(Long id1, Long id2);
     // Between 와 동일한 동작
     List<Users> findByIdGreaterThanEqualAndIdLessThanEqual(Long id1, Long id2);
+
+    // IsNotNull
+    List<Users> findByIdIsNotNull();
+
+    // collector 에 대한 검사. 사용을 잘 안 함
+    // List<Users> findByAddressIsNotEmpty();
+
+    // In
+    List<Users> findByNameIn(List<String> names);
+
+    // 문자열에 대한 검색. like 동작 가능
+    List<Users> findByNameStartingWith(String name);
+    List<Users> findByNameEndingWith(String name);
+    List<Users> findByNameContains(String name);
+    List<Users> findByNameLike(String name);
+
+
+
 }

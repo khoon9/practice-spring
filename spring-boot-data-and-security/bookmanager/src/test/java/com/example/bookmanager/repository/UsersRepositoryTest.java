@@ -1,7 +1,9 @@
 package com.example.bookmanager.repository;
 
+import com.example.bookmanager.domain.Gender;
 import com.example.bookmanager.domain.Users;
 import jakarta.transaction.Transactional;
+import org.apache.catalina.User;
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -221,4 +223,32 @@ class UsersRepositoryTest {
         System.out.println("findByName With Paging  : "+usersRepository.findByName("dennis", PageRequest.of(0, 1, Sort.by(Sort.Order.desc("id")))).getContent());
         System.out.println("findByName With Paging  : "+usersRepository.findByName("dennis", PageRequest.of(0, 1, Sort.by(Sort.Order.desc("id")))));
     }
+
+    @Test
+    void   insertAndUpdateTest(){
+        Users users = new Users();
+        users.setName("sehun");
+        users.setEmail("sehun@naver.com");
+
+        usersRepository.save(users);
+
+        Users users2 = usersRepository.findById(1L).orElseThrow(RuntimeException::new);
+        users2.setName("ssssehun");
+
+        usersRepository.save(users2);
+    }
+    @Test
+    void enumTest(){
+        usersRepository.save(new Users(null, "sehun", "example01@naver.com", LocalDateTime.now(), LocalDateTime.now()));
+        Users users = usersRepository.findById(1L).orElseThrow(RuntimeException::new);
+        users.setGender(Gender.MALE);
+
+        usersRepository.save(users);
+
+        //usersRepository.findAll().forEach(System.out::println);
+        // raw record 을 확인해 보았으나, 0이 반환되었다.
+        // 이는
+        System.out.println(usersRepository.findRawRecord().get("gender"));
+    }
+
 }

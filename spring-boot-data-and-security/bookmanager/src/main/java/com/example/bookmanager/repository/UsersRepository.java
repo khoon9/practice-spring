@@ -6,9 +6,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 public interface UsersRepository extends JpaRepository<Users, Long> {
     // 스프링 데이타 Jpa 가 지원해주는 부분 <Entity Type, PK Type>
@@ -87,6 +89,11 @@ public interface UsersRepository extends JpaRepository<Users, Long> {
 
     // Pageable : page 에 대한 요청 값, page : paging 에 대한 응답 값
     Page<Users> findByName(String name, Pageable pageable);
+
+    // return 타입은 맵핑을 이룬다면 어떤 것이든 가능하기 때문에
+    // nativeQuery 을 하여 value 을 그대로 수행. 그 걀과 값이 Map 에 저장됨
+    @Query(value = "select * from users limit 1", nativeQuery = true)
+    Map<String, Object> findRawRecord();
 
 }
 

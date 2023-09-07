@@ -251,4 +251,59 @@ class UsersRepositoryTest {
         System.out.println(usersRepository.findRawRecord().get("gender"));
     }
 
+    @Test
+    void listenerTest(){
+        usersRepository.save(new Users(null, "sehun", "example01@naver.com", LocalDateTime.now(), LocalDateTime.now()));
+        usersRepository.save(new Users(null, "dennis", "example02@naver.com", LocalDateTime.now(), LocalDateTime.now()));
+        usersRepository.save(new Users(null, "dennis", "example03@naver.com", LocalDateTime.now(), LocalDateTime.now()));
+        usersRepository.save(new Users(null, "james", "example04@naver.com", LocalDateTime.now(), LocalDateTime.now()));
+        usersRepository.save(new Users(null, "dennis", "example05@naver.com", LocalDateTime.now(), LocalDateTime.now()));
+
+        Users users = new Users();
+        users.setEmail("sehun@naver.com");
+        users.setName("sehun");
+
+        // insert 발생
+        usersRepository.save(users);
+
+        // search 발생
+        Users users2 = usersRepository.findById(1L).orElseThrow(RuntimeException::new);
+        users2.setName("seeeehun");
+        // update
+        usersRepository.save(users2);
+        // delete
+        usersRepository.deleteById(4L);
+
+    }
+    @Test
+    void prePersistTest(){
+        Users users = new Users();
+        users.setEmail("sehun@naver.com");
+        users.setName("sehun");
+        usersRepository.save(users);
+
+        // setCreated 와 setUpdated 을 계속 반복해서 사용하는 경우
+        // don't repeatable 사항에 대해 위반? 하며
+        // 개발자가 실수로 해당 코드가 다르게 작성할 수도 있다.
+        // 그렇기에 prePersistAt 와 preUpdatedAt 을 사용한다.
+
+        System.out.println(usersRepository.findById(1L).orElseThrow(RuntimeException::new));
+
+    }
+    @Test
+    void preUpdateTest(){
+        usersRepository.save(new Users(null, "sehun", "example01@naver.com", LocalDateTime.now(), LocalDateTime.now()));
+        Users users = usersRepository.findById(1L).orElseThrow(RuntimeException::new);
+
+        System.out.println("as-is : "+users);
+
+        users.setName("sehuuuuun");
+        usersRepository.save(users);
+
+        // 여기서 쓰인 .get(0) 은 영속성의 캐시를 이용한 것이다.
+        // updateAt 이 업데이트에 따라 수정된 결과를 볼 수 있다.
+        System.out.println("to-be : "+usersRepository.findAll().get(0));
+    }
+
+
 }

@@ -1,21 +1,23 @@
 package com.example.bookmanager.domain;
 
+import com.example.bookmanager.domain.listener.Auditable;
+import com.example.bookmanager.domain.listener.UserEntityListener;
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Map;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 @Builder
 @Entity
-@EntityListeners(value = MyEntityListener.class)
+@EntityListeners(value = {AuditingEntityListener.class, UserEntityListener.class})
 //@Table(name = "users", indexes = {@Index(columnList = "name")}, uniqueConstraints ={@UniqueConstraint(columnNames = {"email"})})
-public class Users implements Auditable{
+public class Users implements Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "hibernate_sequence")
     private Long id;
@@ -27,8 +29,10 @@ public class Users implements Auditable{
     //@Column(unique = true)
     //@Column
     @Column(updatable = false)
+    @CreatedDate
     private LocalDateTime createdAt;
     //@Column(insertable = false)
+    @LastModifiedDate
     private LocalDateTime updatedAt;
 
     // DB 에서
@@ -41,6 +45,7 @@ public class Users implements Auditable{
         this.name = name;
         this.email = email;
         this.createdAt = createdAt;
+
         this.updatedAt = updatedAt;
     }
 
@@ -58,27 +63,27 @@ public class Users implements Auditable{
 //    private List<Address> address;
 
 
-    // 여기서, 어노테이션은 유의미하지만
-    // 메소드 이름은 기능적으로는 무관하다. 단지 가독성을 위해 작명된 메소드 이름들이다.
+//     여기서, 어노테이션은 유의미하지만
+//     메소드 이름은 기능적으로는 무관하다. 단지 가독성을 위해 작명된 메소드 이름들이다.
 //    @PrePersist
 //    public void prePersist(){
 ////        System.out.println(">>> prePersist");
 //        this.createdAt = LocalDateTime.now();
 //        this.updatedAt = LocalDateTime.now();
 //    }
-
+//
 //    @PostPersist
 //    public void postPersist(){
 //        System.out.println(">>> postPersist");
 //
 //    }
-
+//
 //    @PreUpdate
 //    public void preUpdate(){
 ////        System.out.println(">>> preUpdate");
 //        this.updatedAt = LocalDateTime.now();
 //    }
-
+//
 //    @PostUpdate
 //    public void postUpdate(){
 //        System.out.println(">>> postUpdate");

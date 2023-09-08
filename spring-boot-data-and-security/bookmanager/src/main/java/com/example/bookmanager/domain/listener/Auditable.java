@@ -1,4 +1,4 @@
-package com.example.bookmanager.domain;
+package com.example.bookmanager.domain.listener;
 
 import java.time.LocalDateTime;
 
@@ -8,7 +8,4 @@ public interface Auditable {
 
     void setCreatedAt(LocalDateTime createdAt);
     void setUpdatedAt(LocalDateTime updatedAt);
-
-
-
 }

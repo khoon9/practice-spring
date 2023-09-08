@@ -1,4 +1,4 @@
-package com.example.bookmanager.domain;
+package com.example.bookmanager.domain.listener;
 
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;

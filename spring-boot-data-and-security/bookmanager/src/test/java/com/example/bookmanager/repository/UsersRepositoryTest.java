@@ -23,6 +23,9 @@ class UsersRepositoryTest {
     @Autowired
     private UsersRepository usersRepository;
 
+    @Autowired
+    private UserHistoryRepository userHistoryRepository;
+
     @Test
     @Transactional
     void crud() { // create, read, update, delete
@@ -305,5 +308,19 @@ class UsersRepositoryTest {
         System.out.println("to-be : "+usersRepository.findAll().get(0));
     }
 
+    @Test
+    void userHistoryTest(){
+        Users users = new Users();
+        users.setEmail("sehun@naver.com");
+        users.setName("sehun");
+
+        usersRepository.save(users);
+
+        users.setName("sehunnnnnn");
+
+        usersRepository.save(users);
+
+        userHistoryRepository.findAll().forEach(System.out::println);
+    }
 
 }

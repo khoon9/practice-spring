@@ -1,6 +1,7 @@
 package com.example.bookmanager.repository;
 
 import com.example.bookmanager.domain.Gender;
+import com.example.bookmanager.domain.UserHistory;
 import com.example.bookmanager.domain.Users;
 import jakarta.transaction.Transactional;
 import org.apache.catalina.User;
@@ -338,6 +339,27 @@ class UsersRepositoryTest {
         usersRepository.save(users);
 
         userHistoryRepository.findAll().forEach(System.out::println);
+    }
+    @Test
+    void userRelationTest(){
+        Users users = new Users();
+        users.setName("sehun");
+        users.setEmail("sehun@naver.com");
+        users.setGender(Gender.MALE);
+
+        usersRepository.save(users);
+
+        users.setName("sehun01");
+        usersRepository.save(users);
+
+
+        users.setEmail("sehun01@naver.com");
+        usersRepository.save(users);
+
+        List<UserHistory> userHistories = usersRepository.findByEmail("sehun01@naver.com").getUserHistories();
+
+        userHistories.forEach(System.out::println);
+
     }
 
 }

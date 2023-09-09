@@ -4,14 +4,16 @@ import com.example.bookmanager.domain.UserHistory;
 import com.example.bookmanager.domain.Users;
 import com.example.bookmanager.repository.UserHistoryRepository;
 import com.example.bookmanager.support.BeanUtils;
+import jakarta.persistence.PostPersist;
+import jakarta.persistence.PostUpdate;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 public class UserEntityListener {
-    @PrePersist
-    @PreUpdate
+    @PostPersist
+    @PostUpdate
     public void prePersistAndUpdate(Object o){
         UserHistoryRepository userHistoryRepository = BeanUtils.getBean(UserHistoryRepository.class);
 

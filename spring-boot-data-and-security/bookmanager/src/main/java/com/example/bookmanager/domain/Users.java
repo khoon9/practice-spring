@@ -11,13 +11,14 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import java.time.LocalDateTime;
 
 @NoArgsConstructor
-@AllArgsConstructor
 @Data
-@Builder
+//@Builder
 @Entity
-@EntityListeners(value = {AuditingEntityListener.class, UserEntityListener.class})
+@EntityListeners(value = {UserEntityListener.class})
+@ToString(callSuper = true)
+@EqualsAndHashCode(callSuper = true)
 //@Table(name = "users", indexes = {@Index(columnList = "name")}, uniqueConstraints ={@UniqueConstraint(columnNames = {"email"})})
-public class Users implements Auditable {
+public class Users extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "hibernate_sequence")
     private Long id;
@@ -28,26 +29,26 @@ public class Users implements Auditable {
     //@Column(name = "crtdat")
     //@Column(unique = true)
     //@Column
-    @Column(updatable = false)
-    @CreatedDate
-    private LocalDateTime createdAt;
-    //@Column(insertable = false)
-    @LastModifiedDate
-    private LocalDateTime updatedAt;
+//    @Column(updatable = false)
+//    @CreatedDate
+//    private LocalDateTime createdAt;
+//    //@Column(insertable = false)
+//    @LastModifiedDate
+//    private LocalDateTime updatedAt;
 
     // DB 에서
     @Enumerated(value = EnumType.STRING)
     private Gender gender;
 
 
-    public Users(Long id, String name, String email, LocalDateTime createdAt, LocalDateTime updatedAt) {
-        this.id = id;
-        this.name = name;
-        this.email = email;
-        this.createdAt = createdAt;
-
-        this.updatedAt = updatedAt;
-    }
+//    public Users(Long id, String name, String email, LocalDateTime createdAt, LocalDateTime updatedAt) {
+//        this.id = id;
+//        this.name = name;
+//        this.email = email;
+//        this.createdAt = createdAt;
+//
+//        this.updatedAt = updatedAt;
+//    }
 
 
 //    @PrePersist
@@ -106,4 +107,8 @@ public class Users implements Auditable {
 //        System.out.println(">>> postLoad");
 //
 //    }
+    public Users(String name, String email){
+        this.name = name;
+        this.email = email;
+    }
 }

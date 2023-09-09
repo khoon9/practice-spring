@@ -26,14 +26,24 @@ class UsersRepositoryTest {
     @Autowired
     private UserHistoryRepository userHistoryRepository;
 
+    void saveSample(){
+        for(int i=0; i<5; i++){
+            Users users = new Users();
+            users.setName("sample"+Integer.toString((Integer)i));
+            users.setEmail("sample"+Integer.toString((Integer)i)+"@naver.com");
+            usersRepository.save(users);
+        }
+    }
+
     @Test
     @Transactional
     void crud() { // create, read, update, delete
-        usersRepository.save(new Users(null, "sehun", "example01@naver.com", LocalDateTime.now(), LocalDateTime.now()));
-        usersRepository.save(new Users(null, "dennis", "example02@naver.com", LocalDateTime.now(), LocalDateTime.now()));
-        usersRepository.save(new Users(null, "sophia", "example03@naver.com", LocalDateTime.now(), LocalDateTime.now()));
-        usersRepository.save(new Users(null, "james", "example04@naver.com", LocalDateTime.now(), LocalDateTime.now()));
-        usersRepository.save(new Users(null, "dennis", "example01@naver.com", LocalDateTime.now(), LocalDateTime.now()));
+//        usersRepository.save(new Users(null, "sehun", "example01@naver.com", LocalDateTime.now(), LocalDateTime.now()));
+//        usersRepository.save(new Users(null, "dennis", "example02@naver.com", LocalDateTime.now(), LocalDateTime.now()));
+//        usersRepository.save(new Users(null, "sophia", "example03@naver.com", LocalDateTime.now(), LocalDateTime.now()));
+//        usersRepository.save(new Users(null, "james", "example04@naver.com", LocalDateTime.now(), LocalDateTime.now()));
+//        usersRepository.save(new Users(null, "dennis", "example01@naver.com", LocalDateTime.now(), LocalDateTime.now()));
+        saveSample();
 
 //        Users users = usersRepository.getOne(3L);
 
@@ -88,7 +98,7 @@ class UsersRepositoryTest {
                 .withIgnorePaths("name")
                 .withMatcher("email", contains());
 
-        Example<Users> example = Example.of(new Users(null, "se", "01", null, null), matcher);
+        Example<Users> example = Example.of(new Users("se", "01"), matcher);
 //        Example<Users> example = Example.of(new Users(null, "se", "01@naver.com", null, null));
 
         usersRepository.findAll(example).forEach(System.out::println);
@@ -107,7 +117,8 @@ class UsersRepositoryTest {
 
     @Test
     void saveAndUpdateTest(){
-        usersRepository.save(new Users(null, "sehun", "example01@naver.com", LocalDateTime.now(), LocalDateTime.now()));
+//        usersRepository.save(new Users(null, "sehun", "example01@naver.com", LocalDateTime.now(), LocalDateTime.now()));
+        saveSample();
 
         Users users = usersRepository.findById(1L).orElseThrow(RuntimeException::new);
         users.setEmail("sehun-update@naver.com");
@@ -118,11 +129,12 @@ class UsersRepositoryTest {
     @Test
     void select(){
         // 데이터 표본 입력
-        usersRepository.save(new Users(null, "sehun", "example01@naver.com", LocalDateTime.now(), LocalDateTime.now()));
-        usersRepository.save(new Users(null, "dennis", "example02@naver.com", LocalDateTime.now(), LocalDateTime.now()));
-        usersRepository.save(new Users(null, "dennis", "example03@naver.com", LocalDateTime.now(), LocalDateTime.now()));
-        usersRepository.save(new Users(null, "james", "example04@naver.com", LocalDateTime.now(), LocalDateTime.now()));
-        usersRepository.save(new Users(null, "dennis", "example05@naver.com", LocalDateTime.now(), LocalDateTime.now()));
+//        usersRepository.save(new Users(null, "sehun", "example01@naver.com", LocalDateTime.now(), LocalDateTime.now()));
+//        usersRepository.save(new Users(null, "dennis", "example02@naver.com", LocalDateTime.now(), LocalDateTime.now()));
+//        usersRepository.save(new Users(null, "dennis", "example03@naver.com", LocalDateTime.now(), LocalDateTime.now()));
+//        usersRepository.save(new Users(null, "james", "example04@naver.com", LocalDateTime.now(), LocalDateTime.now()));
+//        usersRepository.save(new Users(null, "dennis", "example05@naver.com", LocalDateTime.now(), LocalDateTime.now()));
+        saveSample();
 
         // 검색대상이 유니크하다는 전제하에 검색한 결과
         System.out.println("findByEmail : " + usersRepository.findByEmail("example01@naver.com"));
@@ -201,11 +213,12 @@ class UsersRepositoryTest {
     @Test
     void pagingAndSortingTest(){
         // 데이터 표본 입력
-        usersRepository.save(new Users(null, "sehun", "example01@naver.com", LocalDateTime.now(), LocalDateTime.now()));
-        usersRepository.save(new Users(null, "dennis", "example02@naver.com", LocalDateTime.now(), LocalDateTime.now()));
-        usersRepository.save(new Users(null, "dennis", "example03@naver.com", LocalDateTime.now(), LocalDateTime.now()));
-        usersRepository.save(new Users(null, "james", "example04@naver.com", LocalDateTime.now(), LocalDateTime.now()));
-        usersRepository.save(new Users(null, "dennis", "example05@naver.com", LocalDateTime.now(), LocalDateTime.now()));
+//        usersRepository.save(new Users(null, "sehun", "example01@naver.com", LocalDateTime.now(), LocalDateTime.now()));
+//        usersRepository.save(new Users(null, "dennis", "example02@naver.com", LocalDateTime.now(), LocalDateTime.now()));
+//        usersRepository.save(new Users(null, "dennis", "example03@naver.com", LocalDateTime.now(), LocalDateTime.now()));
+//        usersRepository.save(new Users(null, "james", "example04@naver.com", LocalDateTime.now(), LocalDateTime.now()));
+//        usersRepository.save(new Users(null, "dennis", "example05@naver.com", LocalDateTime.now(), LocalDateTime.now()));
+        saveSample();
 
         // 정렬 테스트
         System.out.println("findTop1ByName : ");
@@ -242,7 +255,8 @@ class UsersRepositoryTest {
     }
     @Test
     void enumTest(){
-        usersRepository.save(new Users(null, "sehun", "example01@naver.com", LocalDateTime.now(), LocalDateTime.now()));
+//        usersRepository.save(new Users(null, "sehun", "example01@naver.com", LocalDateTime.now(), LocalDateTime.now()));
+        saveSample();
         Users users = usersRepository.findById(1L).orElseThrow(RuntimeException::new);
         users.setGender(Gender.MALE);
 
@@ -256,11 +270,12 @@ class UsersRepositoryTest {
 
     @Test
     void listenerTest(){
-        usersRepository.save(new Users(null, "sehun", "example01@naver.com", LocalDateTime.now(), LocalDateTime.now()));
-        usersRepository.save(new Users(null, "dennis", "example02@naver.com", LocalDateTime.now(), LocalDateTime.now()));
-        usersRepository.save(new Users(null, "dennis", "example03@naver.com", LocalDateTime.now(), LocalDateTime.now()));
-        usersRepository.save(new Users(null, "james", "example04@naver.com", LocalDateTime.now(), LocalDateTime.now()));
-        usersRepository.save(new Users(null, "dennis", "example05@naver.com", LocalDateTime.now(), LocalDateTime.now()));
+//        usersRepository.save(new Users(null, "sehun", "example01@naver.com", LocalDateTime.now(), LocalDateTime.now()));
+//        usersRepository.save(new Users(null, "dennis", "example02@naver.com", LocalDateTime.now(), LocalDateTime.now()));
+//        usersRepository.save(new Users(null, "dennis", "example03@naver.com", LocalDateTime.now(), LocalDateTime.now()));
+//        usersRepository.save(new Users(null, "james", "example04@naver.com", LocalDateTime.now(), LocalDateTime.now()));
+//        usersRepository.save(new Users(null, "dennis", "example05@naver.com", LocalDateTime.now(), LocalDateTime.now()));
+        saveSample();
 
         Users users = new Users();
         users.setEmail("sehun@naver.com");
@@ -295,7 +310,9 @@ class UsersRepositoryTest {
     }
     @Test
     void preUpdateTest(){
-        usersRepository.save(new Users(null, "sehun", "example01@naver.com", LocalDateTime.now(), LocalDateTime.now()));
+//        usersRepository.save(new Users(null, "sehun", "example01@naver.com", LocalDateTime.now(), LocalDateTime.now()));
+        saveSample();
+
         Users users = usersRepository.findById(1L).orElseThrow(RuntimeException::new);
 
         System.out.println("as-is : "+users);

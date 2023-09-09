@@ -7,7 +7,9 @@ import java.time.LocalDateTime;
 class UsersTest {
     @Test
     void test(){
-        Users users = new Users(null, "example@naver.com", "sehun", LocalDateTime.now(), LocalDateTime.now());
+        Users users = new Users();
+        users.setName("sehun");
+        users.setEmail("sehun@naver.com");
 
         System.out.println(">>> " + users);
     }

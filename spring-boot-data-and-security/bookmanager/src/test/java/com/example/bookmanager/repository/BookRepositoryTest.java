@@ -5,8 +5,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 @SpringBootTest
 class BookRepositoryTest {
 
@@ -17,7 +15,8 @@ class BookRepositoryTest {
     void bookTest(){
         Book book = new Book();
         book.setName("bookname");
-        book.setAuthor("sehun");
+        book.setAuthorId(1L);
+        book.setPublisher_id(1L);
 
         bookRepository.save(book);
 

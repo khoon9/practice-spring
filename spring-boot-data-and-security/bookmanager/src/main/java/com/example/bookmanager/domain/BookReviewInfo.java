@@ -1,8 +1,6 @@
 package com.example.bookmanager.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -15,9 +13,16 @@ import lombok.ToString;
 @EqualsAndHashCode(callSuper = true)
 public class BookReviewInfo extends BaseEntity{
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;
-    private Long bookId;
+
+    // 테이블에는 book_id 가 존재하겠지만,
+    // Jpa 에서는 entity 로 set get 을 하게 되면 자동으로 relation 을 맺을 수 있도록 해준다.
+
+    @OneToOne(optional = false)
+    private Book book;
+
+//    private Long bookId;
     private float averageReviewScore;
     private int reviewCount;
 

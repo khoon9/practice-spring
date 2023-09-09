@@ -11,6 +11,7 @@ class BookRepositoryTest {
     @Autowired
     private BookRepository bookRepository;
 
+
     @Test
     void bookTest(){
         Book book = new Book();

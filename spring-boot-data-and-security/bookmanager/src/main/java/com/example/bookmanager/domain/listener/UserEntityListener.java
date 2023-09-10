@@ -18,11 +18,10 @@ public class UserEntityListener {
         UserHistoryRepository userHistoryRepository = BeanUtils.getBean(UserHistoryRepository.class);
 
         Users users =  (Users) o;
-
         UserHistory userHistory = new UserHistory();
-        userHistory.setUserId(users.getId());
         userHistory.setName(users.getName());
         userHistory.setEmail(users.getEmail());
+        userHistory.setUsers(users);
 
         userHistoryRepository.save(userHistory);
     }

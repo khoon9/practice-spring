@@ -34,8 +34,13 @@ public class Users extends BaseEntity {
     // Jpa 에서는 해당 값이 존재하지 않으면 빈 리스트를 자동으로 넣어준다
     // 다만, Jpa 에서 Persist 을 하기 전에는 해당 값이 Null 이기 때문에 nullpoint exception 이 발생 할 수도 있다.
     @OneToMany(fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id", insertable = false, updatable = false)
+    @JoinColumn(name = "users_id",insertable = false, updatable = false)
     private List<UserHistory> userHistories = new ArrayList<>();
+
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinColumn(name = "users_id")
+    @ToString.Exclude
+    private List<Review> reviews = new ArrayList<>();
 
     public Users(String name, String email){
         this.name = name;

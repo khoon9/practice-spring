@@ -360,6 +360,8 @@ class UsersRepositoryTest {
 
         userHistories.forEach(System.out::println);
 
+        System.out.println("UserHistory.getUser() : "+userHistoryRepository.findAll().get(0).getUsers());
+
     }
 
 }

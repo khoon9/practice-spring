@@ -9,5 +9,10 @@ spring:
     properties:
       hibernate:
         format_sql: true
+
+  datasource:
+    url: jdbc:mysql://localhost
+    username: root
+    password: ${DB_PASSWORD}
 server:
   port: 8080

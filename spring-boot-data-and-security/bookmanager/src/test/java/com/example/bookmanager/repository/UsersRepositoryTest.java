@@ -270,6 +270,7 @@ class UsersRepositoryTest {
     }
 
     @Test
+    @Transactional
     void listenerTest(){
 //        usersRepository.save(new Users(null, "sehun", "example01@naver.com", LocalDateTime.now(), LocalDateTime.now()));
 //        usersRepository.save(new Users(null, "dennis", "example02@naver.com", LocalDateTime.now(), LocalDateTime.now()));

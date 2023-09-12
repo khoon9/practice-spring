@@ -2,6 +2,7 @@ package com.example.bookmanager.repository;
 
 import com.example.bookmanager.domain.Book;
 import com.example.bookmanager.domain.BookReviewInfo;
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -9,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
+@Transactional
 class BookReviewInfoRepositoryTest {
     @Autowired
     private BookReviewInfoRepository bookReviewInfoRepository;
@@ -19,6 +21,7 @@ class BookReviewInfoRepositoryTest {
     @Test
     void crudTest(){
         BookReviewInfo bookReviewInfo = new BookReviewInfo();
+
         bookReviewInfo.setBook(givenBook());
         bookReviewInfo.setAverageReviewScore(4.5f);
         bookReviewInfo.setReviewCount(2);
@@ -34,15 +37,13 @@ class BookReviewInfoRepositoryTest {
         givenBookReviewInfo();
 
         Book result = bookReviewInfoRepository
-                .findById(1L)
-                .orElseThrow(RuntimeException::new)
+                .findAll().get(0)
                 .getBook();
 
         System.out.println(">>> "+result);
 
         BookReviewInfo result2 = bookRepository
-                .findById(1L)
-                .orElseThrow(RuntimeException::new)
+                .findAll().get(0)
                 .getBookReviewInfo();
 
         System.out.println(">>> "+result2);

@@ -16,20 +16,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-//@MockBean(JpaMetamodelMappingContext.class)
 @WebMvcTest
-//@SpringBootTest
 class HelloWorldControllerTest {
     @Autowired
     private MockMvc mockMvc;
-
-//    @Autowired
-//    private WebApplicationContext wac;
-//    private MockMvc mockMvc;
-//    @BeforeEach
-//    void before(){
-//        mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
-//    }
 
     @Test
     void helloWorld() throws Exception{

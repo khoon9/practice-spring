@@ -15,8 +15,8 @@ public class BookService {
     private final BookRepository bookRepository;
     private final AuthorRepository authorRepository;
 
-    @Transactional
-    public void putVookAndAuthor(){
+     @Transactional
+     public void putBookAndAuthor() {
         Book book = new Book();
         book.setName("jpa starting");
 
@@ -27,6 +27,7 @@ public class BookService {
 
         authorRepository.save(author);
 
+        throw new RuntimeException("오류가 나서 DB commit 이 발생하지 않습니다.");
     }
 
 

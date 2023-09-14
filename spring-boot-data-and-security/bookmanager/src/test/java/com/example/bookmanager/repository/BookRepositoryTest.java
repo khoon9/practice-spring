@@ -4,10 +4,10 @@ import com.example.bookmanager.domain.Book;
 import com.example.bookmanager.domain.Publisher;
 import com.example.bookmanager.domain.Review;
 import com.example.bookmanager.domain.Users;
-import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
 class BookRepositoryTest {
@@ -48,6 +48,39 @@ class BookRepositoryTest {
         System.out.println("Book : "+ users.getReviews().get(0).getBook());
 //        System.out.println("Publisher : "+users.getReviews().get(0).getBook().getPublisher());
     }
+
+//    @Transactional
+    @Test
+    void bookCascadeTest(){
+        Book book = new Book();
+        book.setName("Jpa starting");
+
+        Publisher publisher = new Publisher();
+        publisher.setName("sehun Co.");
+
+        book.setPublisher(publisher);
+        bookRepository.save(book);
+
+        // Object 은 call by reference 이기에 올바른 로직.
+        // 하지만 가독성이 훼손되므로, addBook 이라는 메소드를 생성하는 것도 좋음
+//        publisher.getBooks().add(book);
+//        publisherRepository.save(publisher);
+
+//        publisher.addBook(book);
+//        publisherRepository.save(publisher);
+
+        System.out.println("books : "+bookRepository.findAll());
+        System.out.println("publishers : "+publisherRepository.findAll());
+
+
+        Book book1 = bookRepository.findAll().get(0);
+        book1.getPublisher().setName("Co.");
+
+        bookRepository.save(book1);
+
+        System.out.println("publishers : "+publisherRepository.findAll());
+    }
+
 
     private void givenBookAndReview(){
         givenReview(givenUsers(), givenBook(givenPublisher()));

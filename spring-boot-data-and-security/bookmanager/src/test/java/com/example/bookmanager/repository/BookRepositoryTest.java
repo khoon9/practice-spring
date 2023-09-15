@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+
 @SpringBootTest
 class BookRepositoryTest {
 
@@ -23,6 +25,19 @@ class BookRepositoryTest {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Test
+    void queryTest(){
+        bookRepository.findAll().forEach(System.out::println);
+        System.out.println("findByCategoryIsNullAndNameEqualsAndCreatedAtGreaterThanEqualAndUpdatedAtGreaterThanEqual : "
+        + bookRepository.findByCategoryIsNullAndNameEqualsAndCreatedAtGreaterThanEqualAndUpdatedAtGreaterThanEqual(
+                "jpa book 01",
+                LocalDateTime.now().minusDays(1L),
+                LocalDateTime.now().minusDays(1L)
+        ));
+    }
+
+
 
     @Test
     @Transactional

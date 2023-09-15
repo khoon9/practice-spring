@@ -17,7 +17,7 @@ import java.util.List;
 @Data
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
-//@Where(clause = "deleted = false")
+@Where(clause = "deleted = false")
 //@DynamicUpdate
 public class Book extends BaseEntity {
     // 지금은 h2 을 사용중에 있기 때문에 default 인 auto 에 의해 hibernate sequence 값을 사용할 것
@@ -50,7 +50,7 @@ public class Book extends BaseEntity {
     @ToString.Exclude
     private List<MiddleOfBookAndAuthor> middleOfBookAndAuthors = new ArrayList<>();
 
-//    private boolean deleted;
+    private boolean deleted;
 
     public void addMiddleOfBookAndAuthor(MiddleOfBookAndAuthor... middleOfBookAndAuthors){
         Collections.addAll(this.middleOfBookAndAuthors, middleOfBookAndAuthors);

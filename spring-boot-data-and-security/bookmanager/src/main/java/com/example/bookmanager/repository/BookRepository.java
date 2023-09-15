@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.awt.print.Pageable;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 public interface BookRepository extends JpaRepository<Book, Long> {
 //    @Modifying
@@ -65,6 +66,10 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 
     @Query(value = "show tables", nativeQuery = true)
     List<String> showTables();
+
+    // 내가 마지막으로 저장한 book record 을 맵 형식으로 DB 에 저장된 형태 그대로 가져오게 된다.
+    @Query(value = "select * from book order by id desc limit 1", nativeQuery = true)
+    Map<String, Object> findRawRecord();
 
 
 }

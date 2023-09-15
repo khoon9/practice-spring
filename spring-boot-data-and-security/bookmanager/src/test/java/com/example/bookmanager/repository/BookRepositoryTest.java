@@ -5,6 +5,7 @@ import com.example.bookmanager.domain.Publisher;
 import com.example.bookmanager.domain.Review;
 import com.example.bookmanager.domain.User;
 import com.example.bookmanager.repository.dto.BookNameAndCategory;
+import com.example.bookmanager.repository.dto.BookStatus;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -52,6 +53,21 @@ class BookRepositoryTest {
 
         bookRepository.findBookNameAndCategory(PageRequest.of(0,1))
                 .forEach(b -> System.out.println(b.getName()+ " : " + b.getCategory()));
+    }
+
+    @Test
+    void converterTest(){
+        bookRepository.findAll().forEach(System.out::println);
+
+        Book book = new Book();
+        book.setName("또다른 TT 전문서적");
+        book.setStatus(new BookStatus(200));
+
+        bookRepository.save(book);
+        //
+        System.out.println(bookRepository.findRawRecord().values());
+
+//        bookRepository.findAll().forEach(System.out::println);
     }
 
     @Test

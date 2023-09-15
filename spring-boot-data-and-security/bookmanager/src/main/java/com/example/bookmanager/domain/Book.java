@@ -1,5 +1,7 @@
 package com.example.bookmanager.domain;
 
+import com.example.bookmanager.domain.converter.BookStatusConverter;
+import com.example.bookmanager.repository.dto.BookStatus;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -51,6 +53,10 @@ public class Book extends BaseEntity {
     private List<MiddleOfBookAndAuthor> middleOfBookAndAuthors = new ArrayList<>();
 
     private boolean deleted;
+    // 판매 상태
+    // @Convert 와 @Converter 차이 유의
+    @Convert(converter = BookStatusConverter.class)
+    private BookStatus status;
 
     public void addMiddleOfBookAndAuthor(MiddleOfBookAndAuthor... middleOfBookAndAuthors){
         Collections.addAll(this.middleOfBookAndAuthors, middleOfBookAndAuthors);

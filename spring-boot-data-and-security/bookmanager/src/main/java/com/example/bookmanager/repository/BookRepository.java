@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.awt.print.Pageable;
 import java.time.LocalDateTime;
@@ -46,8 +47,24 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     @Query(value = "select new com.example.bookmanager.repository.dto.BookNameAndCategory(b.name, b.category) from Book b")
     Page<BookNameAndCategory> findBookNameAndCategory(PageRequest pageRequest);
 
+    // nativeQuery 에서는 entity 이름이 아닌 table 이름 사용
+    // Entity 에서 할당한 @Where 설정이 무시된다.
+    @Query(value = "select * from book", nativeQuery = true)
+    List<Book> findAllCustom();
 
+    // 일반적으로 DML 이라는 작업에서는 리턴되는 값이 단순히 적용된 row 의 갯수로 표기가 된다.
+    // save 상의 update 에서는 자동적으로 트렌젝션이 적용되었었다.
+    // 단, nativeQuery 에서는 사용자가 직접 그러한 사항을 적용해줘야 한다.
 
+    // 트렌젝션 어노테이션은 인터페이스보다는 클래스에 권장. jpa 는 프록시 설정이되기에 안심.
+    // 사용처에서 트렌젝션 어노테이션을 기입하는 것도 가능.
+    @Transactional
+    @Modifying
+    @Query(value = "update book set category = 'TT전문서'", nativeQuery = true)
+    int updateCategories();
+
+    @Query(value = "show tables", nativeQuery = true)
+    List<String> showTables();
 
 
 }

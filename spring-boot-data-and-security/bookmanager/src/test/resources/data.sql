@@ -6,5 +6,5 @@ insert into user(`id`, `name`, `email`, `created_at`, `updated_at`) values (5, '
 
 insert into publisher(`id`, `name`) values (1,'COCO');
 insert into book(`id`, `name`, `publisher_id`, `deleted`) values (1, 'jpa book 01', 1, false);
-insert into book(`id`, `name`, `publisher_id`, `deleted`) values (2, 'jpa book 02', 1, false);
+insert into book(`id`, `name`, `publisher_id`, `deleted`) values (2, 'jpa book 02', 1, true);
 insert into book(`id`, `name`, `publisher_id`, `deleted`) values (3, 'jpa book 03', 1, false);

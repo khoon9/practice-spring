@@ -12,6 +12,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @SpringBootTest
 class BookRepositoryTest {
@@ -51,6 +52,25 @@ class BookRepositoryTest {
 
         bookRepository.findBookNameAndCategory(PageRequest.of(0,1))
                 .forEach(b -> System.out.println(b.getName()+ " : " + b.getCategory()));
+    }
+
+    @Test
+    void nativeQueryTest(){
+//        bookRepository.findAll().forEach(System.out::println);
+//        bookRepository.findAllCustom().forEach(System.out::println);
+        List<Book> books = bookRepository.findAll();
+
+        for(Book book : books){
+            book.setCategory("TT전문서");
+        }
+        bookRepository.saveAll(books);
+
+        System.out.println(bookRepository.findAll());
+
+        bookRepository.findAllCustom().forEach(System.out::println);
+        System.out.println("affected rows : "+ bookRepository.updateCategories());
+
+        System.out.println(bookRepository.showTables());
     }
 
 

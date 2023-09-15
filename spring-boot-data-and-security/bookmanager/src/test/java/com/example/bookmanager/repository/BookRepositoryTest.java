@@ -4,9 +4,11 @@ import com.example.bookmanager.domain.Book;
 import com.example.bookmanager.domain.Publisher;
 import com.example.bookmanager.domain.Review;
 import com.example.bookmanager.domain.User;
+import com.example.bookmanager.repository.dto.BookNameAndCategory;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
@@ -35,6 +37,20 @@ class BookRepositoryTest {
                 LocalDateTime.now().minusDays(1L),
                 LocalDateTime.now().minusDays(1L)
         ));
+        System.out.println("findByNameRecentry : "+ bookRepository.findByNameRecentry(
+                "jpa book 01",
+                LocalDateTime.now().minusDays(1L),
+                LocalDateTime.now().minusDays(1L)
+        ));
+//        bookRepository.findBookNameAndCategory().forEach(tuple -> System.out.println(tuple.get(0)+ " : " + tuple.get(1)));
+        bookRepository.findBookNameAndCategory().forEach(b -> System.out.println(b.getName()+ " : " + b.getCategory()));
+
+
+        bookRepository.findBookNameAndCategory(PageRequest.of(1,1))
+                .forEach(BookNameAndCategory -> System.out.println(BookNameAndCategory.getName()+ " : " + BookNameAndCategory.getCategory()));
+
+        bookRepository.findBookNameAndCategory(PageRequest.of(0,1))
+                .forEach(b -> System.out.println(b.getName()+ " : " + b.getCategory()));
     }
 
 

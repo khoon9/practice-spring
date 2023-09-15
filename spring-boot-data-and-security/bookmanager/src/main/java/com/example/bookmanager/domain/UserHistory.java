@@ -1,17 +1,10 @@
 package com.example.bookmanager.domain;
 
-import com.example.bookmanager.domain.listener.Auditable;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.apache.catalina.User;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
-import java.time.LocalDateTime;
 
 @Entity
 @NoArgsConstructor
@@ -27,5 +20,5 @@ public class UserHistory extends BaseEntity {
 
     @ManyToOne
     @ToString.Exclude
-    private Users users;
+    private User user;
 }

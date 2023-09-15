@@ -2,9 +2,8 @@ package com.example.bookmanager.repository;
 
 import com.example.bookmanager.domain.Gender;
 import com.example.bookmanager.domain.UserHistory;
-import com.example.bookmanager.domain.Users;
+import com.example.bookmanager.domain.User;
 import jakarta.transaction.Transactional;
-import org.apache.catalina.User;
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,26 +12,24 @@ import org.springframework.data.domain.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers.contains;
-import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers.endsWith;
 
 
 @SpringBootTest
-class UsersRepositoryTest {
+class UserRepositoryTest {
     @Autowired
-    private UsersRepository usersRepository;
+    private UserRepository userRepository;
 
     @Autowired
     private UserHistoryRepository userHistoryRepository;
 
     void saveSample(){
         for(int i=0; i<5; i++){
-            Users users = new Users();
-            users.setName("sample"+Integer.toString((Integer)i));
-            users.setEmail("sample"+Integer.toString((Integer)i)+"@naver.com");
-            usersRepository.save(users);
+            User user = new User();
+            user.setName("sample"+Integer.toString((Integer)i));
+            user.setEmail("sample"+Integer.toString((Integer)i)+"@naver.com");
+            userRepository.save(user);
         }
     }
 
@@ -99,10 +96,10 @@ class UsersRepositoryTest {
                 .withIgnorePaths("name")
                 .withMatcher("email", contains());
 
-        Example<Users> example = Example.of(new Users("se", "01"), matcher);
+        Example<User> example = Example.of(new User("se", "01"), matcher);
 //        Example<Users> example = Example.of(new Users(null, "se", "01@naver.com", null, null));
 
-        usersRepository.findAll(example).forEach(System.out::println);
+        userRepository.findAll(example).forEach(System.out::println);
 
 //        usersRepository.findAll().forEach(System.out::println);
 
@@ -121,10 +118,10 @@ class UsersRepositoryTest {
 //        usersRepository.save(new Users(null, "sehun", "example01@naver.com", LocalDateTime.now(), LocalDateTime.now()));
         saveSample();
 
-        Users users = usersRepository.findById(1L).orElseThrow(RuntimeException::new);
-        users.setEmail("sehun-update@naver.com");
+        User user = userRepository.findById(1L).orElseThrow(RuntimeException::new);
+        user.setEmail("sehun-update@naver.com");
 
-        usersRepository.save(users);
+        userRepository.save(user);
     }
 
     @Test
@@ -138,56 +135,56 @@ class UsersRepositoryTest {
         saveSample();
 
         // 검색대상이 유니크하다는 전제하에 검색한 결과
-        System.out.println("findByEmail : " + usersRepository.findByEmail("example01@naver.com"));
-        System.out.println("getByEmail : " + usersRepository.getByEmail("example01@naver.com"));
-        System.out.println("readByEmail : " + usersRepository.readByEmail("example01@naver.com"));
-        System.out.println("queryByEmail : " + usersRepository.queryByEmail("example01@naver.com"));
-        System.out.println("searchByEmail : " + usersRepository.searchByEmail("example01@naver.com"));
-        System.out.println("streamByEmail : " + usersRepository.streamByEmail("example01@naver.com"));
+        System.out.println("findByEmail : " + userRepository.findByEmail("example01@naver.com"));
+        System.out.println("getByEmail : " + userRepository.getByEmail("example01@naver.com"));
+        System.out.println("readByEmail : " + userRepository.readByEmail("example01@naver.com"));
+        System.out.println("queryByEmail : " + userRepository.queryByEmail("example01@naver.com"));
+        System.out.println("searchByEmail : " + userRepository.searchByEmail("example01@naver.com"));
+        System.out.println("streamByEmail : " + userRepository.streamByEmail("example01@naver.com"));
 
         // 사용자 편의에 의한 접두어를 사용한 모습
-        System.out.println("findUsersByEmail : " + usersRepository.findUsersByEmail("example01@naver.com"));
-        System.out.println("findSomethingByEmail : " + usersRepository.findSomethingByEmail("example01@naver.com"));
+        System.out.println("findUsersByEmail : " + userRepository.findUserByEmail("example01@naver.com"));
+        System.out.println("findSomethingByEmail : " + userRepository.findSomethingByEmail("example01@naver.com"));
 
         // 접두어 키워드를 사용한 모습
         System.out.println("findFirst1ByName : ");
-        usersRepository.findFirst2ByName("dennis").forEach(System.out::println);
+        userRepository.findFirst2ByName("dennis").forEach(System.out::println);
         System.out.println("findTop1ByName : ");
-        usersRepository.findTop2ByName("dennis").forEach(System.out::println);
+        userRepository.findTop2ByName("dennis").forEach(System.out::println);
 
         // 인식되지 않은 접두어 "Last2" 가 무시되어, findByName 쿼리 메소드로 인식되었다.
         System.out.println("findLast2ByName : ");
-        usersRepository.findLast2ByName("dennis").forEach(System.out::println);
+        userRepository.findLast2ByName("dennis").forEach(System.out::println);
 
         // where 조건 설명
         // And Or , After, Before
         System.out.println("findByEmailAndName : ");
-        usersRepository.findByEmailAndName("example01@naver.com", "sehun").forEach(System.out::println);
+        userRepository.findByEmailAndName("example01@naver.com", "sehun").forEach(System.out::println);
         System.out.println("findByEmailOrName : ");
-        usersRepository.findByEmailOrName("example01@naver.com", "dennis").forEach(System.out::println);
+        userRepository.findByEmailOrName("example01@naver.com", "dennis").forEach(System.out::println);
 
         System.out.println("findByCreatedAtAfter : ");
-        usersRepository.findByCreatedAtAfter(LocalDateTime.now().minusDays(1L)).forEach(System.out::println);
+        userRepository.findByCreatedAtAfter(LocalDateTime.now().minusDays(1L)).forEach(System.out::println);
         System.out.println("findByIdAfter : ");
-        usersRepository.findByIdAfter(4L).forEach(System.out::println);
+        userRepository.findByIdAfter(4L).forEach(System.out::println);
 
         System.out.println("findByCreatedAtGreaterThan : ");
-        usersRepository.findByCreatedAtGreaterThan(LocalDateTime.now().minusDays(1L)).forEach(System.out::println);
+        userRepository.findByCreatedAtGreaterThan(LocalDateTime.now().minusDays(1L)).forEach(System.out::println);
         System.out.println("findByCreatedAtGreaterThanEqual : ");
-        usersRepository.findByCreatedAtGreaterThanEqual(LocalDateTime.now().minusDays(1L)).forEach(System.out::println);
+        userRepository.findByCreatedAtGreaterThanEqual(LocalDateTime.now().minusDays(1L)).forEach(System.out::println);
 
         System.out.println("findByCreatedAtBetween : ");
-        usersRepository.findByCreatedAtBetween(LocalDateTime.now().minusDays(1L), LocalDateTime.now().plusDays(1L)).forEach(System.out::println);
+        userRepository.findByCreatedAtBetween(LocalDateTime.now().minusDays(1L), LocalDateTime.now().plusDays(1L)).forEach(System.out::println);
         System.out.println("findByIdBetween : ");
-        usersRepository.findByIdBetween(1L, 3L).forEach(System.out::println);
+        userRepository.findByIdBetween(1L, 3L).forEach(System.out::println);
         System.out.println("findByIdGreaterThanEqualAndIdLessThanEqual : ");
-        usersRepository.findByIdGreaterThanEqualAndIdLessThanEqual(1L, 3L).forEach(System.out::println);
+        userRepository.findByIdGreaterThanEqualAndIdLessThanEqual(1L, 3L).forEach(System.out::println);
 
         System.out.println("findByIdIsNotNull : ");
-        usersRepository.findByIdIsNotNull().forEach(System.out::println);
+        userRepository.findByIdIsNotNull().forEach(System.out::println);
 
         System.out.println("findByIdIsNotNull : ");
-        usersRepository.findByIdIsNotNull().forEach(System.out::println);
+        userRepository.findByIdIsNotNull().forEach(System.out::println);
 
         // 여기선 Empty 거 문자열의 empty 가 아니라, collector 의 empty 을 말한다.
         // 많이 사용하진 않는다.
@@ -196,18 +193,18 @@ class UsersRepositoryTest {
 
         // In
         System.out.println("findByNameIn : ");
-        usersRepository.findByNameIn(Lists.newArrayList("sehun", "dennis")).forEach(System.out::println);
+        userRepository.findByNameIn(Lists.newArrayList("sehun", "dennis")).forEach(System.out::println);
 
         // 문자열 like 검색. StartingWith, EndingWith, Contains
         System.out.println("findByNameStartingWith : ");
-        usersRepository.findByNameStartingWith("se").forEach(System.out::println);
+        userRepository.findByNameStartingWith("se").forEach(System.out::println);
         System.out.println("findByNameEndingWith : ");
-        usersRepository.findByNameEndingWith("eh").forEach(System.out::println);
+        userRepository.findByNameEndingWith("eh").forEach(System.out::println);
         System.out.println("findByNameContains : ");
-        usersRepository.findByNameContains("un").forEach(System.out::println);
+        userRepository.findByNameContains("un").forEach(System.out::println);
         // % 은 방향. ~% 은 ~로 시작. %~은 ~로 끝. %~% 은 ~을 포함
         System.out.println("findByNameLike : ");
-        usersRepository.findByNameLike("%ehu%").forEach(System.out::println);
+        userRepository.findByNameLike("%ehu%").forEach(System.out::println);
 
     }
 
@@ -223,50 +220,50 @@ class UsersRepositoryTest {
 
         // 정렬 테스트
         System.out.println("findTop1ByName : ");
-        usersRepository.findTop1ByName("dennis").forEach(System.out::println);
+        userRepository.findTop1ByName("dennis").forEach(System.out::println);
         // OrderByIdDesc
         System.out.println("findTop1ByNameOrderByIdDesc : ");
-        usersRepository.findTop1ByNameOrderByIdDesc("dennis").forEach(System.out::println);
+        userRepository.findTop1ByNameOrderByIdDesc("dennis").forEach(System.out::println);
 
         System.out.println("findFirst1ByNameOrderByIdDescEmailAsc : ");
-        usersRepository.findFirst1ByNameOrderByIdDescEmailAsc("dennis").forEach(System.out::println);
+        userRepository.findFirst1ByNameOrderByIdDescEmailAsc("dennis").forEach(System.out::println);
         // Sort 활
         System.out.println("findFirstByName With Sort Params  : ");
-        usersRepository.findFirstByName("dennis", Sort.by(Sort.Order.desc("id"))).forEach(System.out::println);
+        userRepository.findFirstByName("dennis", Sort.by(Sort.Order.desc("id"))).forEach(System.out::println);
 
         System.out.println("findFirstByName With Sort Params  : ");
-        usersRepository.findFirstByName("dennis", Sort.by(Sort.Order.desc("id"), Sort.Order.asc("email"))).forEach(System.out::println);
+        userRepository.findFirstByName("dennis", Sort.by(Sort.Order.desc("id"), Sort.Order.asc("email"))).forEach(System.out::println);
 
-        System.out.println("findByName With Paging  : "+usersRepository.findByName("dennis", PageRequest.of(0, 1, Sort.by(Sort.Order.desc("id")))).getContent());
-        System.out.println("findByName With Paging  : "+usersRepository.findByName("dennis", PageRequest.of(0, 1, Sort.by(Sort.Order.desc("id")))));
+        System.out.println("findByName With Paging  : "+ userRepository.findByName("dennis", PageRequest.of(0, 1, Sort.by(Sort.Order.desc("id")))).getContent());
+        System.out.println("findByName With Paging  : "+ userRepository.findByName("dennis", PageRequest.of(0, 1, Sort.by(Sort.Order.desc("id")))));
     }
 
     @Test
     void   insertAndUpdateTest(){
-        Users users = new Users();
-        users.setName("sehun");
-        users.setEmail("sehun@naver.com");
+        User user = new User();
+        user.setName("sehun");
+        user.setEmail("sehun@naver.com");
 
-        usersRepository.save(users);
+        userRepository.save(user);
 
-        Users users2 = usersRepository.findById(1L).orElseThrow(RuntimeException::new);
-        users2.setName("ssssehun");
+        User user2 = userRepository.findById(1L).orElseThrow(RuntimeException::new);
+        user2.setName("ssssehun");
 
-        usersRepository.save(users2);
+        userRepository.save(user2);
     }
     @Test
     void enumTest(){
 //        usersRepository.save(new Users(null, "sehun", "example01@naver.com", LocalDateTime.now(), LocalDateTime.now()));
         saveSample();
-        Users users = usersRepository.findById(1L).orElseThrow(RuntimeException::new);
-        users.setGender(Gender.MALE);
+        User user = userRepository.findById(1L).orElseThrow(RuntimeException::new);
+        user.setGender(Gender.MALE);
 
-        usersRepository.save(users);
+        userRepository.save(user);
 
         //usersRepository.findAll().forEach(System.out::println);
         // raw record 을 확인해 보았으나, 0이 반환되었다.
         // 이는
-        System.out.println(usersRepository.findRawRecord().get("gender"));
+        System.out.println(userRepository.findRawRecord().get("gender"));
     }
 
     @Test
@@ -279,35 +276,35 @@ class UsersRepositoryTest {
 //        usersRepository.save(new Users(null, "dennis", "example05@naver.com", LocalDateTime.now(), LocalDateTime.now()));
         saveSample();
 
-        Users users = new Users();
-        users.setEmail("sehun@naver.com");
-        users.setName("sehun");
+        User user = new User();
+        user.setEmail("sehun@naver.com");
+        user.setName("sehun");
 
         // insert 발생
-        usersRepository.save(users);
+        userRepository.save(user);
 
         // search 발생
-        Users users2 = usersRepository.findById(1L).orElseThrow(RuntimeException::new);
-        users2.setName("seeeehun");
+        User user2 = userRepository.findById(1L).orElseThrow(RuntimeException::new);
+        user2.setName("seeeehun");
         // update
-        usersRepository.save(users2);
+        userRepository.save(user2);
         // delete
-        usersRepository.deleteById(4L);
+        userRepository.deleteById(4L);
 
     }
     @Test
     void prePersistTest(){
-        Users users = new Users();
-        users.setEmail("sehun@naver.com");
-        users.setName("sehun");
-        usersRepository.save(users);
+        User user = new User();
+        user.setEmail("sehun@naver.com");
+        user.setName("sehun");
+        userRepository.save(user);
 
         // setCreated 와 setUpdated 을 계속 반복해서 사용하는 경우
         // don't repeatable 사항에 대해 위반? 하며
         // 개발자가 실수로 해당 코드가 다르게 작성할 수도 있다.
         // 그렇기에 prePersistAt 와 preUpdatedAt 을 사용한다.
 
-        System.out.println(usersRepository.findById(1L).orElseThrow(RuntimeException::new));
+        System.out.println(userRepository.findById(1L).orElseThrow(RuntimeException::new));
 
     }
     @Test
@@ -315,53 +312,53 @@ class UsersRepositoryTest {
 //        usersRepository.save(new Users(null, "sehun", "example01@naver.com", LocalDateTime.now(), LocalDateTime.now()));
         saveSample();
 
-        Users users = usersRepository.findById(1L).orElseThrow(RuntimeException::new);
+        User user = userRepository.findById(1L).orElseThrow(RuntimeException::new);
 
-        System.out.println("as-is : "+users);
+        System.out.println("as-is : "+ user);
 
-        users.setName("sehuuuuun");
-        usersRepository.save(users);
+        user.setName("sehuuuuun");
+        userRepository.save(user);
 
         // 여기서 쓰인 .get(0) 은 영속성의 캐시를 이용한 것이다.
         // updateAt 이 업데이트에 따라 수정된 결과를 볼 수 있다.
-        System.out.println("to-be : "+usersRepository.findAll().get(0));
+        System.out.println("to-be : "+ userRepository.findAll().get(0));
     }
 
     @Test
     void userHistoryTest(){
-        Users users = new Users();
-        users.setEmail("sehun@naver.com");
-        users.setName("sehun");
+        User user = new User();
+        user.setEmail("sehun@naver.com");
+        user.setName("sehun");
 
-        usersRepository.save(users);
+        userRepository.save(user);
 
-        users.setName("sehunnnnnn");
+        user.setName("sehunnnnnn");
 
-        usersRepository.save(users);
+        userRepository.save(user);
 
         userHistoryRepository.findAll().forEach(System.out::println);
     }
     @Test
     void userRelationTest(){
-        Users users = new Users();
-        users.setName("sehun");
-        users.setEmail("sehun@naver.com");
-        users.setGender(Gender.MALE);
+        User user = new User();
+        user.setName("sehun");
+        user.setEmail("sehun@naver.com");
+        user.setGender(Gender.MALE);
 
-        usersRepository.save(users);
+        userRepository.save(user);
 
-        users.setName("sehun01");
-        usersRepository.save(users);
+        user.setName("sehun01");
+        userRepository.save(user);
 
 
-        users.setEmail("sehun01@naver.com");
-        usersRepository.save(users);
+        user.setEmail("sehun01@naver.com");
+        userRepository.save(user);
 
-        List<UserHistory> userHistories = usersRepository.findByEmail("sehun01@naver.com").getUserHistories();
+        List<UserHistory> userHistories = userRepository.findByEmail("sehun01@naver.com").getUserHistories();
 
         userHistories.forEach(System.out::println);
 
-        System.out.println("UserHistory.getUser() : "+userHistoryRepository.findAll().get(0).getUsers());
+        System.out.println("UserHistory.getUser() : "+userHistoryRepository.findAll().get(0).getUser());
 
     }
 

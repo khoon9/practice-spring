@@ -23,7 +23,7 @@ public class Review extends BaseEntity {
     private float score;
 
     @ManyToOne
-    private Users users;
+    private User user;
 
     @ManyToOne
     private Book book;

@@ -1,7 +1,4 @@
 spring:
-  profiles:
-    active: dev
-
   h2:
     console:
       enabled: true
@@ -11,14 +8,16 @@ spring:
     properties:
       hibernate:
         format_sql: true
-    generate-ddl: false
+    generate-ddl: true
+    defer-datasource-initialization: true
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: create
 
   datasource:
     url: jdbc:mysql://localhost:3306/book_manager
     username: root
     password: ${DB_PASSWORD}
+
   sql:
     init:
       mode: always

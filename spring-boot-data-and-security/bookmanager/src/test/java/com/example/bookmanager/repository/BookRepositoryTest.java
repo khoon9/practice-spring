@@ -3,7 +3,7 @@ package com.example.bookmanager.repository;
 import com.example.bookmanager.domain.Book;
 import com.example.bookmanager.domain.Publisher;
 import com.example.bookmanager.domain.Review;
-import com.example.bookmanager.domain.Users;
+import com.example.bookmanager.domain.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -22,7 +22,7 @@ class BookRepositoryTest {
     private ReviewRepository reviewRepository;
 
     @Autowired
-    private UsersRepository usersRepository;
+    private UserRepository userRepository;
 
     @Test
     @Transactional
@@ -41,11 +41,11 @@ class BookRepositoryTest {
         givenBookAndReview();
 
         // 일반적으론, 인증정보를 통해서 users 값을 가져온다
-        Users users = usersRepository.findByEmail("sehun@naver.com");
+        User user = userRepository.findByEmail("sehun@naver.com");
 
-        System.out.println("User : "+ users);
-        System.out.println("Review : " + users.getReviews().get(0));
-        System.out.println("Book : "+ users.getReviews().get(0).getBook());
+        System.out.println("User : "+ user);
+        System.out.println("Review : " + user.getReviews().get(0));
+        System.out.println("Book : "+ user.getReviews().get(0).getBook());
 //        System.out.println("Publisher : "+users.getReviews().get(0).getBook().getPublisher());
     }
 
@@ -61,24 +61,35 @@ class BookRepositoryTest {
         book.setPublisher(publisher);
         bookRepository.save(book);
 
-        // Object 은 call by reference 이기에 올바른 로직.
-        // 하지만 가독성이 훼손되므로, addBook 이라는 메소드를 생성하는 것도 좋음
-//        publisher.getBooks().add(book);
-//        publisherRepository.save(publisher);
+        Book book3 = bookRepository.findById(1L).get();
+        book3.setPublisher(null);
 
-//        publisher.addBook(book);
-//        publisherRepository.save(publisher);
+        bookRepository.save(book3);
 
         System.out.println("books : "+bookRepository.findAll());
         System.out.println("publishers : "+publisherRepository.findAll());
 
+        System.out.println("book3-publisher : "+bookRepository.findById(1L).get().getPublisher());
+        System.out.println("book : "+bookRepository.findById(1L).get());
+        System.out.println("publisher : "+publisherRepository.findById(1L).get());
+    }
 
-        Book book1 = bookRepository.findAll().get(0);
-        book1.getPublisher().setName("Co.");
+    @Test
+    void softDeleteTest(){
+        bookRepository.findAll().forEach(System.out::println);
+        System.out.println(bookRepository.findById(2L));
+    }
 
-        bookRepository.save(book1);
+    @Test
+    void bookRemoveCascadeTest(){
+        bookRepository.deleteById(1L);
 
+        System.out.println("books : "+bookRepository.findAll());
         System.out.println("publishers : "+publisherRepository.findAll());
+
+        bookRepository.findAll().forEach(book-> System.out.println(book.getPublisher()));
+
+
     }
 
 
@@ -86,10 +97,10 @@ class BookRepositoryTest {
         givenReview(givenUsers(), givenBook(givenPublisher()));
     }
 
-    private Users givenUsers(){
-        Users users = new Users("sehun", "sehun@naver.com");
-        usersRepository.save(users);
-        return users;
+    private User givenUsers(){
+        User user = new User("sehun", "sehun@naver.com");
+        userRepository.save(user);
+        return user;
     }
 
     private Book givenBook(Publisher publisher){
@@ -107,12 +118,12 @@ class BookRepositoryTest {
         return publisherRepository.save(publisher);
     }
 
-    private void givenReview(Users users, Book book){
+    private void givenReview(User user, Book book){
         Review review = new Review();
         review.setTitle("리뷰 제목");
         review.setContent("~~~리뷰 내용~~~");
         review.setScore(5.0f);
-        review.setUsers(users);
+        review.setUser(user);
         review.setBook(book);
 
 //        System.out.println(reviewRepository.save(review));

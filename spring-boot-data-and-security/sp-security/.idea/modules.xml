@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/comp/common-utils/sp-security.comp-common-utils.main.iml" filepath="$PROJECT_DIR$/.idea/modules/comp/common-utils/sp-security.comp-common-utils.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/server/basic-test/sp-security.server-basic-test.main.iml" filepath="$PROJECT_DIR$/.idea/modules/server/basic-test/sp-security.server-basic-test.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/server/basic-test/sp-security.server-basic-test.test.iml" filepath="$PROJECT_DIR$/.idea/modules/server/basic-test/sp-security.server-basic-test.test.iml" />
+    </modules>
+  </component>
+</project>

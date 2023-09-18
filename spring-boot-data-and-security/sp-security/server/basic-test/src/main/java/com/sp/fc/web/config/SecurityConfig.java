@@ -44,6 +44,9 @@ public class SecurityConfig
                         .requestMatchers("/").permitAll()
                         .anyRequest().authenticated()
                 )
+                .formLogin(login->
+                        login.defaultSuccessUrl("/", false)
+		        )
                 .httpBasic(withDefaults());
         return http.build();
     }

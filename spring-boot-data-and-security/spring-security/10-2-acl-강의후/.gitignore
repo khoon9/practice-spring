@@ -1,0 +1,26 @@
+# IntelliJ IDEA 설정 디렉토리 무시
+.idea/
+
+# Eclipse 설정 디렉토리 무시
+.classpath
+.project
+.settings/
+
+# Gradle 관련 디렉토리 무시
+.gradle/
+build/
+
+# Maven 빌드 디렉토리 무시
+target/
+
+# 로그 파일 무시
+*.log
+
+# 보안 파일 (예: application.properties)을 포함한 개인 정보 무시 (개발자별로 다를 수 있음)
+# src/main/resources/application.properties
+
+# 컴파일된 클래스 파일 무시
+#*.class
+
+# 로컬 환경 설정 파일 무시 (개발자별로 다를 수 있음)
+# application-local.properties

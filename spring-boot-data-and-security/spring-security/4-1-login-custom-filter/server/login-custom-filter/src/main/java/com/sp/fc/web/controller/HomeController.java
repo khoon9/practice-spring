@@ -1,9 +1,12 @@
 package com.sp.fc.web.controller;
 
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class HomeController {
@@ -28,4 +31,11 @@ public class HomeController {
     public String accessDenied(){
         return "accessDenied";
     }
+
+    @ResponseBody
+    @GetMapping("/auth")
+    public Authentication auth(){
+        return SecurityContextHolder.getContext().getAuthentication();
+    }
+
 }

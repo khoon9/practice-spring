@@ -1,1 +1,1 @@
-# practice-spring-boot
+# practice-spring

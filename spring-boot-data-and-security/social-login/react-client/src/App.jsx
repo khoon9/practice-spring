@@ -5,7 +5,7 @@ import "./App.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import LoginPage from "./pages/LoginPage";
 import MainPage from "./pages/MainPage";
-import SuccessPage from "./pages/LoginPage/SuccessPage";
+import OauthPage from "./pages/LoginPage/OauthPage";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -14,7 +14,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/login" element={<LoginPage />}></Route>
-        <Route path="/success" element={<SuccessPage />}></Route>
+        <Route path="/oauth" element={<OauthPage />}></Route>
         <Route path="/" element={<MainPage />}></Route>
       </Routes>
     </BrowserRouter>

@@ -1,13 +1,39 @@
-import React from "react";
+import axios from "axios";
+import React, { useState } from "react";
 import styled from "styled-components";
+import kakaoImage from "../../assets/kakao_login_large_wide.png";
 
 const LoginPage = () => {
+  const [userData, setUserData] = useState();
+
+  const REST_API_KEY = import.meta.env.VITE_APP_REST_API_KEY;
+  console.log(REST_API_KEY);
+  const REDIRECT_URI = "http://localhost:5173/oauth";
+  const KAKAO_AUTH_URI = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
+
+  const handleLogin = async () => {
+    try {
+      window.location.href = KAKAO_AUTH_URI;
+      const code = new URL(window.location.href).searchParams.get("code");
+      console.log(code);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <LoginFrame className="">
-      <LoginButton>카카오톡 로그인 시작</LoginButton>
+      <a href={KAKAO_AUTH_URI}>
+        <LoginImg src={kakaoImage} width="80%" alt="id" />
+      </a>
     </LoginFrame>
   );
 };
+
+const LoginImg = styled.img`
+  height: auto;
+  cursor: pointer;
+`;
 
 const LoginFrame = styled.div`
   width: 30em;
@@ -21,7 +47,7 @@ const LoginFrame = styled.div`
   align-items: center;
 `;
 
-const LoginButton = styled.button`
+const LoginButton = styled.a`
   width: 20em;
   padding: 1em 1em;
   text-align: center;
